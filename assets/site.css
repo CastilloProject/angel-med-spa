@@ -12,3 +12,5 @@
 
 /* Icon links for the official social profiles. */
 .social-grid{display:flex;flex-wrap:wrap;gap:20px}.social-card{justify-content:flex-start;gap:18px;padding:14px 26px 14px 14px;border-radius:26px;min-width:88px;min-height:88px}.social-card .social-name{margin:0;font:26px var(--serif);white-space:nowrap}.social-card .social-symbol{margin:0;width:60px;height:60px;flex-basis:60px;font-size:inherit}.social-symbol svg{display:block;width:32px;height:32px}.social-card:focus-visible{outline:3px solid #355c4a;outline-offset:5px}.instagram-card:hover .social-symbol{background:linear-gradient(135deg,#833ab4,#c13584,#e99846);color:white}.tiktok-card:hover .social-symbol{background:#172d2b;color:white}.tiktok-card:hover svg{filter:drop-shadow(-1.5px -1px 0 #25f4ee) drop-shadow(1.5px 1px 0 #fe2c55)}
+
+.service-video[data-provider=tiktok]{max-width:340px;margin-inline:auto}.service-video[data-provider=tiktok] iframe{aspect-ratio:9/16;max-height:none}.video-fallback{display:block;padding:14px;text-align:center;color:#e1edc8;font-size:13px;text-decoration:underline}.video-fallback:focus-visible{outline:2px solid #e1edc8;outline-offset:-4px}

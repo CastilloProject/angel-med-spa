@@ -79,6 +79,15 @@ await page.screenshot({path:path.join(process.env.TEMP,'angel-spa-desktop.png'),
  await page.goto(base+'/admin');assert.match(await page.locator('[name=recovery_details]').inputValue(),/Segundo párrafo/);await page.locator('[name=recovery_videoUrl]').fill('https://example.com/not-a-video');await page.locator('#saveButton').click();await page.locator('#saveStatus').filter({hasText:'MP4/WebM'}).waitFor();await page.locator('#discard').click();assert.equal(await page.locator('[name=recovery_videoUrl]').inputValue(),'https://youtu.be/abcdefghijk');
  await page.locator('[name=recovery_videoUrl]').fill('');await page.locator('#saveButton').click();await page.locator('#saveStatus').filter({hasText:'Cambios guardados'}).waitFor();await page.goto(base);await recovery.locator('summary').click();assert.equal(await recovery.locator('.service-video').isVisible(),false);
  await page.goto(base+'/admin');await page.locator('[name=address]').fill('Pending edit');await page.locator('#discard').click();assert.equal(await page.locator('[name=address]').inputValue(),'Orlando, Florida');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ const tikTokUrl='https://www.tiktok.com/@angelmedspa/video/7573392719318437150';
+ const videoTools=require('../assets/services.js');
+ assert.equal(videoTools.videoSource(tikTokUrl+'?_r=1').type,'tiktok');
+ for(const badUrl of ['https://www.tiktok.com.evil.example/@angelmedspa/video/7573392719318437150','javascript:alert(1)','https://vm.tiktok.com/abc','https://www.tiktok.com/@angelmedspa'])assert.equal(videoTools.videoSource(badUrl),null);
+ await page.locator('[name=recovery_videoUrl]').fill(tikTokUrl);await page.locator('#saveButton').click();await page.locator('#saveStatus').filter({hasText:'Cambios guardados'}).waitFor();
+ await page.route('https://www.tiktok.com/player/**',route=>route.fulfill({status:200,contentType:'text/html',body:'<p>TikTok player test</p>'}));
+ await page.goto(base);await recovery.locator('summary').click();await recovery.locator('iframe').waitFor();assert.equal(await recovery.locator('iframe').getAttribute('src'),'https://www.tiktok.com/player/v1/7573392719318437150?autoplay=0&rel=0');assert.equal(await recovery.locator('.video-fallback').getAttribute('href'),tikTokUrl);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await recovery.locator('summary').click();await recovery.locator('iframe').waitFor({state:'detached'});
+ await page.goto(base+'/admin');assert.equal(await page.locator('[name=recovery_videoUrl]').inputValue(),tikTokUrl);
+ console.log('PASS: TikTok URL validation, saved link, inline vertical player, fallback and teardown (player response mocked).');
  // Create, persist, select, discard deletion, delete, and retain an empty catalog.
  await page.locator('#addService').click();
  const editor=page.locator('[data-service-editor]').last();const newId=await editor.getAttribute('data-service-editor');

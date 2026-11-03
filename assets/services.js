@@ -8,6 +8,10 @@
   try{
    const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password)return null;
    const host=url.hostname.toLowerCase();let id;
+   if(['tiktok.com','www.tiktok.com','m.tiktok.com'].includes(host)){
+    const post=url.pathname.match(/^\/@[^/]+\/video\/(\d{15,25})\/?$/)||url.pathname.match(/^\/player\/v1\/(\d{15,25})\/?$/);
+    if(post)return {type:'tiktok',src:'https://www.tiktok.com/player/v1/'+post[1]+'?autoplay=0&rel=0',original:url.href};
+   }
    if(host==='youtu.be')id=url.pathname.slice(1);
    else if(['youtube.com','www.youtube.com','m.youtube.com','www.youtube-nocookie.com'].includes(host))id=url.pathname==='/watch'?url.searchParams.get('v'):url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)\/?$/)?.[1];
    if(id&&/^[\w-]{11}$/.test(id))return {type:'youtube',src:'https://www.youtube-nocookie.com/embed/'+id};
@@ -32,7 +36,7 @@
    }
    if(output[id].category&&!['recovery','skin','wellness'].includes(output[id].category))throw Error('Categoría inválida.');
    if(output[id].imageUrl){try{const url=new URL(output[id].imageUrl);if(url.protocol!=='https:'||url.username||url.password)throw Error()}catch{throw Error('Usa una URL HTTPS pública para la imagen.')}}
-   if(output[id].videoUrl&&!videoSource(output[id].videoUrl))throw Error('Usa un enlace HTTPS de YouTube o un archivo MP4/WebM para el video.');
+   if(output[id].videoUrl&&!videoSource(output[id].videoUrl))throw Error('Usa un enlace HTTPS completo de TikTok (@usuario/video/…), YouTube o un archivo MP4/WebM para el video.');
   }
   return output;
  }

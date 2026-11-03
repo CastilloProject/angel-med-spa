@@ -15,14 +15,14 @@ function renderServiceEditors(){
    const label=document.createElement('label');label.textContent=title;
    const input=document.createElement(textarea?'textarea':'input');input.dataset.serviceKey=key;input.name=id+'_'+key;input.maxLength=limit;
    if(key==='imageUrl')input.type='url';
-   if(key==='videoUrl'){input.type='url';input.placeholder='https://www.youtube.com/watch?v=… o https://…/video.mp4'}
+   if(key==='videoUrl'){input.type='url';input.placeholder='https://www.tiktok.com/@usuario/video/…'}
    input.value=custom[key]??(english?'':base[key]||'');if(key==='title'||key==='summary')input.required=true;
    label.append(input);return label;
   };
   const remove=document.createElement('button');remove.type='button';remove.className='text-link';remove.textContent='Eliminar servicio';remove.onclick=()=>{section.remove();pending()};section.append(remove);
   const category=document.createElement('label');category.textContent='Categoría';const select=document.createElement('select');select.dataset.serviceKey='category';for(const [value,text] of [['recovery','Recuperación'],['skin','Faciales y piel'],['wellness','Bienestar']]){const option=new Option(text,value);select.add(option)}select.value=custom.category||base.category||(id==='recovery'?'recovery':id==='skin'?'skin':'wellness');category.append(select);section.append(category,addField('imageUrl','Imagen (URL HTTPS pública, opcional)',2000));
   section.append(addField('title','Nombre del servicio',100),addField('summary','Resumen de la tarjeta',400,true),addField('details','Descripción completa (puedes usar varios párrafos)',5000,true),addField('videoUrl','Video del servicio (opcional)',2000));
-  const help=document.createElement('p');help.className='settings-help';help.textContent='Usa un enlace HTTPS de YouTube (también Shorts) o un enlace directo a MP4/WebM. El archivo debe estar alojado y ser accesible públicamente. Deja el campo vacío para quitar el video.';section.append(help);
+  const help=document.createElement('p');help.className='settings-help';help.textContent='Admite enlaces HTTPS completos de TikTok (@usuario/video/…), YouTube (también Shorts) y archivos MP4/WebM públicos. Para enlaces cortos de TikTok (vm.tiktok.com o vt.tiktok.com), abre primero el video y copia su dirección completa. El video debe permitir su reproducción fuera de la plataforma. Deja el campo vacío para quitar el video.';section.append(help);
   const english=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Contenido en inglés (opcional)';english.append(summary,addField('titleEn','Nombre en inglés',100,false,true),addField('summaryEn','Resumen en inglés',400,true,true),addField('detailsEn','Descripción en inglés',5000,true,true));section.append(english);root.append(section);
  }
 }
