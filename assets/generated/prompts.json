@@ -1,0 +1,17 @@
+[
+  {
+    "file": "service-recovery.webp",
+    "mode": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. Asset type: premium med-spa website service card, portrait 4:5 composition. Close-up editorial photograph illustrating gentle lymphatic massage in a wellness spa: only the trained therapist's two natural hands performing light massage on an adult client's lower leg and ankle, the rest of the client comfortably covered by ivory towels. No faces. Professional nonsexual treatment setting. No wounds or surgery, no instruments, no medical outcome claims. Cohesive art direction: warm off-white, muted sage green linens, soft natural window lighting, sophisticated clean editorial photography, realistic textures. Subject centered with room to crop square and portrait. No logos, no writing, no watermark, no collage, no borders. Illustrative imagery, not a real clinic or staff photograph."
+  },
+  {
+    "file": "service-laser.webp",
+    "mode": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. Asset type: premium med-spa website service card, portrait 4:5 composition. Editorial photograph illustrating professional laser hair removal: close-up of a practitioner's gloved hand holding a realistic laser hair-removal handpiece flush against an adult client's lower leg on an ivory treatment bed. Only the lower leg and hands in frame, no faces. Clean professional setting, anatomically correct hands, no beams, no glowing skin, no needles. Cohesive art direction: warm off-white, muted sage green linens, soft natural window lighting, sophisticated clean editorial photography, realistic textures. Subject centered with room to crop square and portrait. No logos, no writing, no watermark, no collage, no borders. Illustrative imagery, not a real clinic or staff photograph."
+  },
+  {
+    "file": "service-facial.webp",
+    "mode": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. Asset type: premium med-spa website service card, portrait 4:5 composition. Editorial beauty photograph illustrating a facial skin-care treatment: close-up side angle of an adult female client with eyes gently closed, hair wrapped in an ivory towel, a practitioner's hand using a soft fan brush to apply a white facial mask to the cheek. Focus on the treatment, no identifiable real person, natural skin texture, serene expression, no needles. Cohesive art direction: warm off-white, muted sage green linens, soft natural window lighting, sophisticated clean editorial photography, realistic textures. Subject centered with room to crop square and portrait. No logos, no writing, no watermark, no collage, no borders. Illustrative imagery, not a real clinic or staff photograph."
+  }
+]

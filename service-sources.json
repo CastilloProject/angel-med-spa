@@ -1,0 +1,57 @@
+{
+  "reviewed_on": "2026-11-03",
+  "official_account": "https://www.instagram.com/angelmedspa/",
+  "method": "Public Instagram profile and posts read in a browser without logging in. Only the supplied official account was used.",
+  "confirmed": [
+    {
+      "service": "Drenaje linfático",
+      "source": "https://www.instagram.com/reel/De9bdqOJ9yF/",
+      "evidence": "The official caption explicitly promotes lymphatic drainage massage.",
+      "limits": "No prices, packages, clinical benefits or treatment frequency copied or inferred."
+    },
+    {
+      "service": "Masajes postquirúrgicos / cuidado postoperatorio",
+      "source": "https://www.instagram.com/reel/Dc1FgBGuici/",
+      "evidence": "The official caption explicitly promotes postoperative massage; the profile biography also identifies postoperative care."
+    },
+    {
+      "service": "Faciales",
+      "source": "https://www.instagram.com/p/DfKoDpqlKQL/",
+      "evidence": "The official caption mentions facials; the profile also has a Facials highlight.",
+      "limits": "Does not establish specific techniques such as Dermapen or microneedling."
+    }
+  ],
+  "highlights_only": [
+    {
+      "title": "IV Therapy",
+      "source": "https://www.instagram.com/stories/highlights/18272323288163606/"
+    },
+    {
+      "title": "Morpheus 8",
+      "source": "https://www.instagram.com/stories/highlights/17966737962120395/"
+    },
+    {
+      "title": "Capillary",
+      "source": "https://www.instagram.com/stories/highlights/18045205999954235/"
+    },
+    {
+      "title": "RF",
+      "source": "https://www.instagram.com/stories/highlights/18496294690000287/"
+    }
+  ],
+  "highlight_limit": "Titles and links were visible on the official profile. Full stories required sign-in. Kept here as research only; not shown as services or links in public treatment cards.",
+  "removed_from_public_catalog_pending_evidence": [
+    "Depilación láser",
+    "Dermapen",
+    "Microneedling"
+  ],
+  "not_inferred_as_services": [
+    "Tummy tuck surgery",
+    "HD surgery",
+    "B-waist procedures"
+  ],
+  "original_reference": {
+    "source": "https://www.instagram.com/p/De1mSq8RPgM/",
+    "finding": "Birthday greeting for a team member, not a treatment video. Default embed replaced with the lymphatic drainage Reel."
+  }
+}

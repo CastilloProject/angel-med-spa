@@ -1,0 +1,12 @@
+{
+  "name": "angel-med-spa",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Angel Med Spa - sitio publico y administracion en una sola aplicacion",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
