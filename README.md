@@ -95,3 +95,9 @@ Servicios revisados el 3 de noviembre de 2026 exclusivamente en `@angelmedspa`. 
 ### Verificación
 
 `node scripts/smoke-test.cjs` comprueba las rutas públicas, autenticación, bloqueo de escrituras sin sesión y guardado. Utiliza una carpeta temporal, sin modificar los datos reales. Para incluir pruebas de navegador, define `PLAYWRIGHT_MODULE` con la ruta de una instalación de Playwright y, si corresponde, `CHROMIUM_PATH` con la ruta del navegador.
+
+## Crear y eliminar servicios
+
+En `/admin`, abre **Servicios: detalles y videos** y pulsa **Crear servicio**. Completa nombre, resumen, descripción, categoría y, opcionalmente, URL HTTPS de imagen y video. Los videos admiten YouTube y archivos públicos MP4/WebM. Puedes agregar traducciones al inglés. Publica únicamente servicios reales del negocio.
+
+**Eliminar servicio** lo retira del formulario de edición; pulsa **Guardar cambios** para aplicar la creación o eliminación a la página, los filtros y el selector de citas. **Descartar cambios** restaura el catálogo guardado. Se admiten hasta 50 servicios y un catálogo vacío. En Render Free los cambios no persisten tras reinicios o nuevos despliegues; usa almacenamiento persistente para conservarlos.

@@ -41,6 +41,7 @@ http.createServer(async(req,res)=>{
    for(const k of allowed)out[k]=typeof data[k]==='string'?data[k].slice(0,2000):'';
    if(out.whatsapp){const digits=out.whatsapp.replace(/\D/g,'');if(!/^[+0-9 ()-]+$/.test(out.whatsapp)||!/^[1-9]\d{7,14}$/.test(digits))throw Error('WhatsApp inválido: incluye código de país y entre 8 y 15 dígitos.');out.whatsapp=digits}
    out.services=serviceContent.normalize(data.services);
+   if(data.serviceCatalogVersion===1){out.serviceCatalogVersion=1;for(const item of Object.values(out.services))if(!item.title||!item.summary)throw Error('Cada servicio necesita nombre y resumen.');}
    out.photos={};if(data.photos&&typeof data.photos==='object')for(const [k,v] of Object.entries(data.photos)){if(!/^\d{1,2}$/.test(k)||+k>11||!v||typeof v!=='object')continue;const o={fit:v.fit==='contain'?'contain':'cover',x:Math.min(100,Math.max(0,Number.isFinite(Number(v.x))?Number(v.x):50)),y:Math.min(100,Math.max(0,Number.isFinite(Number(v.y))?Number(v.y):50))};if(typeof v.src==='string'&&/^data:image\/(jpeg|png|webp);base64,/.test(v.src)&&v.src.length<3*1024*1024)o.src=v.src;out.photos[k]=o}
    const temp=settingsPath+'.tmp';fs.writeFileSync(temp,JSON.stringify(out));fs.renameSync(temp,settingsPath);return send(res,200,JSON.stringify({ok:true}),'application/json')
   }catch(e){return send(res,400,JSON.stringify({error:e.message}),'application/json')}

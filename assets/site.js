@@ -7,6 +7,26 @@ const profile=instagramUrl(cfg.instagram)?cfg.instagram:defaults.instagram;
 function setSocial(id,value,hosts){const a=$(id);if(!a)return;try{const u=new URL(value);if(u.protocol!=='https:'||!hosts.includes(u.hostname.toLowerCase()))return;a.href=u.href;a.hidden=false}catch{}}
 setSocial('socialInstagram',profile,['instagram.com','www.instagram.com']);
 setSocial('socialTikTok',cfg.tiktok,['tiktok.com','www.tiktok.com']);
+const serviceCatalog=AngelServices.catalog(cfg);
+const serviceGrid=document.querySelector('.treatment-grid');
+const serviceTemplates=Object.fromEntries([...serviceGrid.querySelectorAll('.treatment')].map(card=>[card.dataset.category,card.cloneNode(true)]));
+serviceGrid.replaceChildren();
+const serviceSelect=$('service');
+for(const option of [...serviceSelect.options])if(Object.values(AngelServices.defaults).some(base=>base.title===option.value))option.remove();
+let serviceIndex=0;
+for(const [id,item] of Object.entries(serviceCatalog)){
+ const card=(serviceTemplates[id]||serviceTemplates.skin).cloneNode(true);card.dataset.serviceId=id;card.dataset.category=item.category||(id==='recovery'?'recovery':id==='skin'?'skin':'wellness');
+ card.querySelector('.treatment-number').textContent=String(++serviceIndex).padStart(2,'0');
+ const img=card.querySelector('img');
+ if(item.imageUrl){img.src=item.imageUrl;img.removeAttribute('data-photo-id')}
+ else if(!serviceTemplates[id]){img.src='/assets/photo-2.webp';img.removeAttribute('data-photo-id')}
+ img.alt=item.title;serviceGrid.append(card);
+ const option=new Option(item.title,item.title);option.dataset.serviceId=id;serviceSelect.insertBefore(option,serviceSelect.lastElementChild);
+}
+const emptyServices=document.createElement('p');emptyServices.dataset.t='';emptyServices.textContent='Consulta con el equipo los servicios disponibles.';emptyServices.hidden=serviceIndex>0;serviceGrid.after(emptyServices);
+const wellnessFilter=document.createElement('button');wellnessFilter.type='button';wellnessFilter.className='filter-button';wellnessFilter.dataset.filter='wellness';wellnessFilter.dataset.t='';wellnessFilter.textContent='Bienestar';wellnessFilter.setAttribute('aria-pressed','false');document.querySelector('.service-filters').append(wellnessFilter);
+for(const button of document.querySelectorAll('[data-filter]'))button.hidden=button.dataset.filter!=='all'&&![...serviceGrid.children].some(card=>card.dataset.category===button.dataset.filter);
+
 document.querySelectorAll('[data-photo-id]').forEach(img=>{const item=cfg.photos?.[img.dataset.photoId];if(item){if(/^data:image\/(jpeg|png|webp);base64,/.test(item.src||''))img.src=item.src;img.style.objectFit=item.fit==='contain'?'contain':'cover';img.style.objectPosition=`${item.x??50}% ${item.y??50}%`}});
 $('address').textContent=cfg.address||defaults.address;
 $('copyright').textContent=`© ${new Date().getFullYear()} ${cfg.businessName||defaults.businessName}`;
@@ -23,12 +43,12 @@ $('navLinks').querySelectorAll('a').forEach(a=>a.onclick=()=>{$('navLinks').clas
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('navLinks').classList.remove('open');$('menuToggle').setAttribute('aria-expanded','false')}});
 function renderServices(){
  document.querySelectorAll('.treatment[data-category]').forEach(card=>{
-  const id=card.dataset.category,base=AngelServices.defaults[id];if(!base)return;
+  const id=card.dataset.serviceId,base=AngelServices.defaults[id]||serviceCatalog[id];if(!base)return;
   const custom=cfg.services?.[id]||{};
   const values={};
   for(const field of ['title','summary','details']){
    const text=custom[field]||base[field];
-   values[field]=language==='en'?(custom[field+'En']||(custom[field]&&custom[field]!==base[field]?text:base[field+'En'])):text;
+   values[field]=language==='en'?(custom[field+'En']||(custom[field]&&custom[field]!==base[field]?text:(base[field+'En']||text))):text;
    card.querySelector('[data-service-field="'+field+'"]').textContent=values[field];
   }
   const anchor=card.querySelector('[data-service]');anchor.dataset.service=custom.title||base.title;
@@ -39,7 +59,7 @@ function setupServiceVideos(){
  document.querySelectorAll('.treatment[data-category]').forEach(card=>{
   const details=card.querySelector('details'),holder=card.querySelector('.service-video');
   if(!details||!holder)return;
-  const source=AngelServices.videoSource(cfg.services?.[card.dataset.category]?.videoUrl);
+  const source=AngelServices.videoSource(serviceCatalog[card.dataset.serviceId]?.videoUrl);
   if(!source)return;
   details.addEventListener('toggle',()=>{
    holder.replaceChildren();holder.hidden=!details.open;if(!details.open)return;
@@ -50,7 +70,7 @@ function setupServiceVideos(){
   });
  });
 }
-for(const [id,base] of Object.entries(AngelServices.defaults)){const option=[...$('service').options].find(o=>o.value===base.title);if(option){option.dataset.serviceId=id;option.removeAttribute('data-t')}}
+
 document.querySelectorAll('[data-service]').forEach(a=>a.onclick=()=>{$('service').value=a.dataset.service});
 setupServiceVideos();
 const hasChannel=Boolean(phone);

@@ -19,19 +19,24 @@
   if(input===undefined)return {};
   if(!input||typeof input!=='object'||Array.isArray(input))throw Error('Los detalles de servicios no son válidos.');
   const output={};
-  for(const id of Object.keys(defaults)){
+  if(Object.keys(input).length>50)throw Error('Puedes guardar hasta 50 servicios.');
+  for(const id of Object.keys(input)){
+   if(!/^[a-z][a-z0-9-]{0,79}$/.test(id)||['constructor','prototype','__proto__'].includes(id))throw Error('Identificador de servicio inválido.');
    const item=input[id];if(item===undefined)continue;
    if(!item||typeof item!=='object'||Array.isArray(item))throw Error('Servicio inválido.');
    output[id]={};
-   for(const [key,limit] of Object.entries({title:100,titleEn:100,summary:400,summaryEn:400,details:5000,detailsEn:5000,videoUrl:2000})){
+   for(const [key,limit] of Object.entries({title:100,titleEn:100,summary:400,summaryEn:400,details:5000,detailsEn:5000,videoUrl:2000,imageUrl:2000,category:30})){
     if(item[key]===undefined)continue;
     if(typeof item[key]!=='string'||item[key].length>limit)throw Error('Revisa la longitud del contenido del servicio.');
     output[id][key]=item[key].trim();
    }
+   if(output[id].category&&!['recovery','skin','wellness'].includes(output[id].category))throw Error('Categoría inválida.');
+   if(output[id].imageUrl){try{const url=new URL(output[id].imageUrl);if(url.protocol!=='https:'||url.username||url.password)throw Error()}catch{throw Error('Usa una URL HTTPS pública para la imagen.')}}
    if(output[id].videoUrl&&!videoSource(output[id].videoUrl))throw Error('Usa un enlace HTTPS de YouTube o un archivo MP4/WebM para el video.');
   }
   return output;
  }
- const api={defaults,videoSource,normalize};
+ function catalog(cfg){const custom=cfg.services||{};const ids=cfg.serviceCatalogVersion===1?Object.keys(custom):[...new Set([...Object.keys(defaults),...Object.keys(custom)])];return Object.fromEntries(ids.map(id=>[id,{...(defaults[id]||{}),...(custom[id]||{})}]))}
+ const api={defaults,videoSource,normalize,catalog};
  if(typeof module==='object'&&module.exports)module.exports=api;else root.AngelServices=api;
 })(typeof window!=='undefined'?window:globalThis);
